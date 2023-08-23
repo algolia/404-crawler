@@ -1,0 +1,34 @@
+{
+	"name": "is-gzip",
+	"version": "2.0.0",
+	"description": "Check if a Buffer/Uint8Array is a GZIP file",
+	"license": "MIT",
+	"repository": "kevva/is-gzip",
+	"author": {
+		"name": "Kevin Mårtensson",
+		"email": "kevinmartensson@gmail.com",
+		"url": "github.com/kevva"
+	},
+	"engines": {
+		"node": ">=4"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"archive",
+		"buffer",
+		"check",
+		"detect",
+		"gzip",
+		"type",
+		"uint8array"
+	],
+	"devDependencies": {
+		"ava": "*",
+		"xo": "*"
+	}
+}
