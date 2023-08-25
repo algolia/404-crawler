@@ -1,11 +1,17 @@
 import { chromium } from "playwright";
 import type { Page } from "playwright";
 
-type Method = "status-code" | "js-rendering";
+export type Method = "status-code" | "js-rendering";
 
 type SiteStatus = {
   url: string;
   status: "404" | "not-found" | "ok";
+};
+
+const STATUS_WORDING = {
+  "404": "❌ Returning status code 404",
+  "not-found": "❌ Rendering a 'Not Found Page'",
+  ok: "✅ Valid",
 };
 
 class Crawler {
@@ -56,7 +62,7 @@ class Crawler {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    for (const site of this.sites) {
+    for (const [index, site] of this.sites.entries()) {
       await page.goto(site);
       const locator = page.getByRole(...parameters);
       const notFoundElements = await locator.evaluateAll((list) =>
@@ -69,7 +75,8 @@ class Crawler {
       if (notFoundElements.length > 0) {
         siteStatus.status = "not-found";
       }
-      console.log({ siteStatus });
+      console.log(`Crawling ${index + 1}/${this.sites.length}...`);
+      console.log(`${STATUS_WORDING[siteStatus.status]} - ${siteStatus.url}\n`);
       sitesStatus.push(siteStatus);
     }
 

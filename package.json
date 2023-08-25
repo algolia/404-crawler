@@ -1,22 +1,24 @@
 {
   "name": "404-crawler",
   "version": "1.0.0",
-  "description": "Crawl every url found in the sitemap and returns all 404 subdomains",
-  "main": "index.ts",
+  "description": "Crawl every pages from sitemap urls and their sub-path to detect 404/not found page",
+  "main": "crawler.ts",
   "scripts": {
-    "start": "node --loader ts-node/esm index.ts",
-    "test:playwright": "playwright test",
+    "build": "tsc",
+    "start": "pnpm build && node dist/cli.js",
     "test": "vitest"
   },
   "keywords": [],
   "author": "Loïc Say <loic.say@algolia.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/commander": "^2.12.2",
     "@types/node": "^20.5.2",
-    "dotenv": "^16.3.1",
+    "commander": "^11.0.0",
     "playwright": "^1.37.1",
     "sitemapper": "^3.2.6",
     "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
     "typescript": "^5.1.6",
     "vitest": "^0.34.2"
   }

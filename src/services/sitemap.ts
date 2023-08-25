@@ -15,7 +15,7 @@ class Sitemap {
   }
 
   async fetch() {
-    const { errors, sites } = await sitemap.fetch(process.env.SITEMAP_URL);
+    const { errors, sites } = await sitemap.fetch(this.sitemapUrl);
     if (errors.length > 0) {
       throw new Error(
         `An error occured while fetching the sitemap: ${errors.join("\n")}`
