@@ -35,7 +35,7 @@ class Crawler {
   async crawlByStatus() {
     const sitesStatus: SiteStatus[] = [];
 
-    for (const site of this.sites) {
+    for (const [index, site] of this.sites.entries()) {
       const response = await fetch(site);
 
       let siteStatus: SiteStatus = {
@@ -45,7 +45,8 @@ class Crawler {
       if (response.status === 404) {
         siteStatus.status = "404";
       }
-      console.log({ siteStatus });
+      console.log(`Crawling ${index + 1}/${this.sites.length}...`);
+      console.log(`${STATUS_WORDING[siteStatus.status]} - ${siteStatus.url}\n`);
       sitesStatus.push(siteStatus);
     }
 
