@@ -1,23 +1,27 @@
-import fs from "fs";
-import Sitemapper from "sitemapper";
-import createUrlObjectFromUrl from "./helpers/createUrlObjectFromUrl";
+import dotenv from "dotenv";
+import Crawler from "./services/crawler";
+import Sitemap from "./services/sitemap";
 
-const sitemap = new Sitemapper({});
+dotenv.config();
 
 const main = async () => {
-  const { url, sites } = await sitemap.fetch(
-    "https://www.algolia.com/doc-beta/sitemap.xml"
-  );
-
-  console.log(`Showing sites from ${url}:\n\n`);
-
-  const data = createUrlObjectFromUrl(sites);
-  const dataToWrite = JSON.stringify({ data });
-  fs.writeFileSync("sites.json", dataToWrite);
-
-  console.log(data);
+  if (!process.env.SITEMAP_URL) {
+    throw new Error(
+      "Cannot find SITEMAP_URL environment variable: maybe you forgot to add it?"
+    );
+  }
+  console.log(`\n🔄 Loading sitemap.xml...`);
+  const sitemap = new Sitemap(process.env.SITEMAP_URL);
+  await sitemap.fetch();
+  console.log(`\n🚀 Crawling sites and sub-domains sites...`);
+  const crawler = new Crawler(sitemap.fullPaths, "js-rendering");
+  await crawler.crawl();
 };
 
-main().then(() => {
-  console.log("\n✅ Done!");
-});
+main()
+  .then(() => {
+    console.log(`\n✅ All sites and sub-domains sites have been crawled.`);
+  })
+  .catch((error) => {
+    console.log(`\n❌ An error occured: ${error}`);
+  });

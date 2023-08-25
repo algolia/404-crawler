@@ -1,10 +1,11 @@
 {
   "name": "404-crawler",
   "version": "1.0.0",
-  "description": "",
+  "description": "Crawl every url found in the sitemap and returns all 404 subdomains",
   "main": "index.ts",
   "scripts": {
     "start": "node --loader ts-node/esm index.ts",
+    "test:playwright": "playwright test",
     "test": "vitest"
   },
   "keywords": [],
@@ -12,6 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.5.2",
+    "dotenv": "^16.3.1",
+    "playwright": "^1.37.1",
     "sitemapper": "^3.2.6",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
