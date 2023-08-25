@@ -41,12 +41,7 @@ class Sitemap {
   }
 
   write(outputPath = DEFAULT_OUTPUT_PATH) {
-    fs.writeFileSync(
-      outputPath,
-      JSON.stringify({
-        sites: this.fullPaths,
-      })
-    );
+    fs.writeFileSync(outputPath, JSON.stringify(this.fullPaths));
   }
 }
 
