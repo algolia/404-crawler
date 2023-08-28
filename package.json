@@ -1,6 +1,6 @@
 {
   "name": "@algolia/404-crawler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Detect 404/Not found pages from sitemap",
   "repository": {
     "type": "git",
