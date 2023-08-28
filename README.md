@@ -2,7 +2,7 @@
 
 A command line interface to crawl pages from sitemap urls and all their sub-path.
 
-![Screenshot](README.png)
+![Screenshot](https://github.com/algolia/404-crawler/blob/main/README.png)
 
 ## Get started
 
@@ -18,7 +18,7 @@ pnpm i
 pnpm build
 ```
 
-### Run
+### Dev mode
 
 ```
 node dist/cli.js crawl <options>
