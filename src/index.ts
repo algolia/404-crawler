@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from "fs";
 import Crawler from "./services/crawler";
 import Sitemap from "./services/sitemap";
