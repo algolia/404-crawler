@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { program } from "commander";
 import main from "./src";
 import { Method } from "./src/services/crawler";

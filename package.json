@@ -11,7 +11,7 @@
     "dist/**"
   ],
   "bin": {
-    "404crawler": "./cli.js"
+    "404crawler": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
