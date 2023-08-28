@@ -1,4 +1,4 @@
-# 404 Crawler
+# 404 Crawler 🏊‍♂️
 
 A command line interface to crawl pages from sitemap urls and all their sub-path.
 
@@ -39,11 +39,16 @@ After that, you'll be able to use the command `404crawler` in your terminal
 
 ### Options
 
-- `--sitemap-url or -u`: **Required** URL of the `sitemap.xml` file.
-- `--render-js or -r`: Use JavaScript rendering to crawl and identify a 'Not Found Page' if the status code isn't a 404. This option is useful for websites that returns a 200 status code even if the page is not found (Next.js with custom not found page for example)
-- `--include-variations or -r`: Include all sub-path variations from URLs found in the `sitemap.xml`.
+- `--sitemap-url` or `-u`:
+  **Required** URL of the `sitemap.xml` file.
+
+- `--render-js` or `-r`:
+  Use JavaScript rendering to crawl and identify a 'Not Found Page' if the status code isn't a 404. This option is useful for websites that returns a 200 status code even if the page is not found (Next.js with custom not found page for example)
+- `--include-variations` or `-r`:
+  Include all sub-path variations from URLs found in the `sitemap.xml`.
   For example, if https://algolia.com/foo/bar/baz is found in the sitemap, the crawler will test https://algolia.com/foo/bar/baz, https://algolia.com/foo/bar, https://algolia.com/foo and https://algolia.com
-- `--output or -o`: Ouput path for the JSON file of the results. Example: `crawler/results.json`. If not set, no file is written after the crawl.
+- `--output` or `-o`:
+  Ouput path for the JSON file of the results. Example: `crawler/results.json`. If not set, no file is written after the crawl.
 
 ## Get started (maintainers)
 
