@@ -2,6 +2,8 @@
 
 A command line interface to crawl pages from sitemap urls and all their sub-path.
 
+![Screenshot](README.png)
+
 ## Get started
 
 ### Install
@@ -16,8 +18,8 @@ pnpm i
 pnpm build
 ```
 
-### Test
+### Run
 
 ```
-node dist/cli.js crawl 404 <options>
+node dist/cli.js crawl <options>
 ```

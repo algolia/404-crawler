@@ -1,7 +1,8 @@
 import { chromium } from "playwright";
 import type { Page } from "playwright";
 
-export type Method = "status-code" | "js-rendering";
+export const METHODS = ["status-code", "js-rendering"] as const;
+export type Method = (typeof METHODS)[number];
 
 type SiteStatus = {
   url: string;
@@ -9,9 +10,9 @@ type SiteStatus = {
 };
 
 const STATUS_WORDING = {
-  "404": "❌ Returning status code 404",
-  "not-found": "❌ Rendering a 'Not Found Page'",
-  ok: "✅ Valid",
+  "404": "🚩 Returned status code 404",
+  "not-found": "🚩 Rendered a 'Not Found Page'",
+  ok: "☑️  Valid",
 };
 
 class Crawler {

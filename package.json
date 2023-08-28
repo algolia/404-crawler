@@ -1,14 +1,23 @@
 {
   "name": "404-crawler",
   "version": "1.0.0",
-  "description": "Crawl every pages from sitemap urls and their sub-path to detect 404/not found page",
-  "main": "crawler.ts",
+  "description": "Detect 404/Not found pages from sitemap",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/algolia/404-crawler"
+  },
+  "main": "cli.ts",
   "scripts": {
     "build": "tsc",
     "start": "pnpm build && node dist/cli.js",
     "test": "vitest"
   },
-  "keywords": [],
+  "keywords": [
+    "404",
+    "crawler",
+    "cli",
+    "not-found"
+  ],
   "author": "Loïc Say <loic.say@algolia.com>",
   "license": "ISC",
   "devDependencies": {

@@ -14,30 +14,31 @@ class Sitemap {
     this.fullPaths = [];
   }
 
-  async fetch() {
+  async fetch(full?: boolean) {
     const { errors, sites } = await sitemap.fetch(this.sitemapUrl);
     if (errors.length > 0) {
-      throw new Error(
-        `An error occured while fetching the sitemap: ${errors.join("\n")}`
-      );
+      throw new Error(`Sitemap ${errors.map((err) => err.type).join("\n")}`);
     }
 
-    const fullPaths = new Set();
-    // Create all existing subpaths
-    for (const site of sites) {
-      const { pathname } = new URL(site);
-      const paths = pathname.split("/").filter((rawPath) => Boolean(rawPath));
+    if (full) {
+      const fullPaths = new Set();
+      // Create all existing subpaths
+      for (const site of sites) {
+        const { pathname } = new URL(site);
+        const paths = pathname.split("/").filter((rawPath) => Boolean(rawPath));
 
-      for (let index = 1; index <= paths.length + 1; index++) {
-        const currentPath = paths.slice(0, index).join("/");
-        if (!fullPaths.has(currentPath)) {
-          fullPaths.add(currentPath);
+        for (let index = 1; index <= paths.length + 1; index++) {
+          const currentPath = paths.slice(0, index).join("/");
+          if (!fullPaths.has(currentPath)) {
+            fullPaths.add(currentPath);
+          }
         }
       }
+      const { origin } = new URL(this.sitemapUrl);
+      this.fullPaths = [...fullPaths].map((path) => `${origin}/${path}`);
+    } else {
+      this.fullPaths = sites;
     }
-
-    const { origin } = new URL(this.sitemapUrl);
-    this.fullPaths = [...fullPaths].map((path) => `${origin}/${path}`);
   }
 
   write(outputPath = DEFAULT_OUTPUT_PATH) {
