@@ -8,7 +8,7 @@ A command line interface to crawl pages from sitemap urls and all their sub-path
 
 ### Install
 
-> Make sure npm is installed in your computer. To know more about it, visit
+> Make sure npm is installed in your computer. To know more about it, visit https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 In a terminal, run
 
