@@ -1,8 +1,5 @@
-import { chromium } from "playwright";
 import type { Page } from "playwright";
-
-export const METHODS = ["status-code", "js-rendering"] as const;
-export type Method = (typeof METHODS)[number];
+import { chromium } from "playwright";
 
 type SiteStatus = {
   url: string;
@@ -16,68 +13,46 @@ const STATUS_WORDING = {
 };
 
 class Crawler {
-  method: Method;
+  renderJs: boolean;
   sites: string[];
 
-  constructor(sites: string[], method: Method) {
+  constructor(sites: string[], renderJs?: boolean) {
     this.sites = sites;
-    this.method = method;
+    this.renderJs = Boolean(renderJs);
   }
 
-  async crawl(parameters?: Parameters<Page["getByRole"]>) {
-    switch (this.method) {
-      case "status-code":
-        return this.crawlByStatus();
-      case "js-rendering":
-        return this.crawlJsRendering(parameters);
-    }
-  }
-
-  async crawlByStatus() {
-    const sitesStatus: SiteStatus[] = [];
-
-    for (const [index, site] of this.sites.entries()) {
-      const response = await fetch(site);
-
-      let siteStatus: SiteStatus = {
-        url: site,
-        status: "ok",
-      };
-      if (response.status === 404) {
-        siteStatus.status = "404";
-      }
-      console.log(`Crawling ${index + 1}/${this.sites.length}...`);
-      console.log(`${STATUS_WORDING[siteStatus.status]} - ${siteStatus.url}\n`);
-      sitesStatus.push(siteStatus);
-    }
-
-    return sitesStatus;
-  }
-
-  async crawlJsRendering(
+  async crawl(
     parameters: Parameters<Page["getByRole"]> = [
       "heading",
       { name: "Page not found" },
     ]
   ) {
-    const sitesStatus: SiteStatus[] = [];
     const browser = await chromium.launch();
     const page = await browser.newPage();
+    const sitesStatus: SiteStatus[] = [];
 
     for (const [index, site] of this.sites.entries()) {
-      await page.goto(site);
-      const locator = page.getByRole(...parameters);
-      const notFoundElements = await locator.evaluateAll((list) =>
-        list.map((element) => element)
-      );
+      console.log(`Crawling ${index + 1}/${this.sites.length}...`);
+      const result = await page.goto(site);
       let siteStatus: SiteStatus = {
         url: site,
         status: "ok",
       };
-      if (notFoundElements.length > 0) {
-        siteStatus.status = "not-found";
+
+      if (result?.status() === 404) {
+        siteStatus.status = "404";
       }
-      console.log(`Crawling ${index + 1}/${this.sites.length}...`);
+      // If not a 404 status code and js-rendering is enabled, check 'Not found page'
+      if (siteStatus.status === "ok" && this.renderJs) {
+        const locator = page.getByRole(...parameters);
+        const notFoundElements = await locator.evaluateAll((list) =>
+          list.map((element) => element)
+        );
+        if (notFoundElements.length > 0) {
+          siteStatus.status = "not-found";
+        }
+      }
+
       console.log(`${STATUS_WORDING[siteStatus.status]} - ${siteStatus.url}\n`);
       sitesStatus.push(siteStatus);
     }

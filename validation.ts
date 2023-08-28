@@ -1,11 +1,8 @@
-import { METHODS } from "./src/services/crawler";
-import type { Method } from "./src/services/crawler";
-
 export type Options = {
   sitemapUrl: string;
-  method?: string;
+  renderJs?: boolean;
   output?: string;
-  full?: boolean;
+  includeVariations?: boolean;
 };
 
 const isValidUrl = (url: string) => {
@@ -17,14 +14,9 @@ const isValidUrl = (url: string) => {
   }
 };
 
-const validateOptions = ({ sitemapUrl, method, full }: Options) => {
+const validateOptions = ({ sitemapUrl }: Options) => {
   if (!isValidUrl) {
     throw new Error(`error: '${sitemapUrl}' is not a correct URL`);
-  }
-  if (method && !METHODS.includes(method as Method)) {
-    throw new Error(
-      "error: method option can only be 'status-code' or 'js-rendering'"
-    );
   }
 };
 
