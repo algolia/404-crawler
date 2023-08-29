@@ -5,12 +5,12 @@ const sitemap = new Sitemapper({});
 class Sitemap {
   sitemapUrl: string;
   sitemapSites: string[];
-  fullSites: string[];
+  sitemapSitesWithVariations: string[];
 
   constructor(sitemapUrl: string) {
     this.sitemapUrl = sitemapUrl;
     this.sitemapSites = [];
-    this.fullSites = [];
+    this.sitemapSitesWithVariations = [];
   }
 
   async fetch() {
@@ -21,7 +21,7 @@ class Sitemap {
     this.sitemapSites = sites;
   }
 
-  vary() {
+  fillVariations() {
     const fullSites = new Set();
     // Create all subpaths variations
     for (const site of this.sitemapSites) {
@@ -36,7 +36,9 @@ class Sitemap {
       }
     }
     const { origin } = new URL(this.sitemapUrl);
-    this.fullSites = [...fullSites].map((path) => `${origin}/${path}`);
+    this.sitemapSitesWithVariations = [...fullSites].map(
+      (path) => `${origin}/${path}`
+    );
   }
 }
 

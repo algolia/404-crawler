@@ -19,8 +19,8 @@ const main = async ({
     await sitemap.fetch();
     let sites = sitemap.sitemapSites;
     if (includeVariations) {
-      sitemap.vary();
-      sites = sitemap.fullSites;
+      sitemap.fillVariations();
+      sites = sitemap.sitemapSitesWithVariations;
     }
     console.log(`\n✅ Sitemap fetched and parsed successfully`);
     console.log(
