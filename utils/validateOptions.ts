@@ -3,6 +3,7 @@ export type Options = {
   renderJs?: boolean;
   output?: string;
   includeVariations?: boolean;
+  exitOnDetection?: boolean;
 };
 
 const isValidUrl = (url: string) => {

@@ -1,15 +1,15 @@
 import type { Page } from "playwright";
 import { chromium } from "playwright";
 
-type SiteStatus = {
-  url: string;
-  status: "404" | "not-found" | "ok";
-};
-
 const STATUS_WORDING = {
   "404": "🚩 Returned status code 404",
   "not-found": "🚩 Rendered a 'Not Found Page'",
   ok: "☑️  Valid",
+};
+
+type SiteStatus = {
+  url: string;
+  status: keyof typeof STATUS_WORDING;
 };
 
 class Crawler {
@@ -25,8 +25,9 @@ class Crawler {
     parameters: Parameters<Page["getByRole"]> = [
       "heading",
       { name: "Page not found" },
-    ]
-  ) {
+    ],
+    exitOnDetection?: boolean
+  ): Promise<[Error | null, SiteStatus[]]> {
     const browser = await chromium.launch();
     const page = await browser.newPage();
     const sitesStatus: SiteStatus[] = [];
@@ -53,12 +54,20 @@ class Crawler {
         }
       }
 
-      console.log(`${STATUS_WORDING[siteStatus.status]} - ${siteStatus.url}\n`);
       sitesStatus.push(siteStatus);
+
+      if (exitOnDetection && ["404", "not-found"].includes(siteStatus.status)) {
+        await browser.close();
+        return [
+          new Error(`Page ${siteStatus.url} is a ${siteStatus.status} page`),
+          sitesStatus,
+        ];
+      }
+      console.log(`${STATUS_WORDING[siteStatus.status]} - ${siteStatus.url}\n`);
     }
 
     await browser.close();
-    return sitesStatus;
+    return [null, sitesStatus];
   }
 }
 

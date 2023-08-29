@@ -2,8 +2,9 @@
 
 import { program } from "commander";
 import main from "./src";
-import type { Options } from "./validation";
-import validateOptions from "./validation";
+import formatError from "./utils/formatError";
+import type { Options } from "./utils/validateOptions";
+import validateOptions from "./utils/validateOptions";
 
 program
   .name("404crawler")
@@ -28,16 +29,16 @@ program
     "-v, --include-variations",
     "Crawl all URLs found in the sitemap AND their sub-paths variations"
   )
+  .option(
+    "-e, --exit-on-detection",
+    "Exit when a 404 or a 'Not Found' page is detected"
+  )
   .action((options: Options) => {
     try {
       validateOptions(options);
       main(options);
     } catch (error) {
-      if (error instanceof Error) {
-        console.log(`❌ error: ${error.message}`);
-        return;
-      }
-      console.log(`❌ error: ${String(error)}`);
+      formatError(error);
     }
   });
 

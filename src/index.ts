@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
 import fs from "fs";
-import type { Options } from "../validation";
+import type { Options } from "../utils/validateOptions";
 import Crawler from "./services/crawler";
 import Sitemap from "./services/sitemap";
+import formatError from "../utils/formatError";
 
 const main = async ({
   sitemapUrl,
   renderJs,
   output,
   includeVariations,
+  exitOnDetection,
 }: Options) => {
   try {
     console.log(`\n🔄 Loading sitemap.xml at ${sitemapUrl}...`);
@@ -27,18 +29,17 @@ const main = async ({
       }from sitemap...\n`
     );
     const crawler = new Crawler(sites, renderJs);
-    const siteStatus = await crawler.crawl();
-    console.log(`\n✅ All sites and sub-domains sites have been crawled.`);
+    const [error, siteStatus] = await crawler.crawl(undefined, exitOnDetection);
     if (output) {
       fs.writeFileSync(output, JSON.stringify(siteStatus));
       console.log(`\n✅ Results saved at ${output}`);
     }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log(`❌ error: ${error.message}`);
-      return;
+    if (error) {
+      throw error;
     }
-    console.log(`❌ error: ${String(error)}`);
+    console.log(`\n✅ All sites and sub-domains sites have been crawled.`);
+  } catch (error) {
+    formatError(error);
   }
 };
 
