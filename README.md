@@ -4,7 +4,7 @@ A command line interface to crawl pages from sitemap urls and all their sub-path
 
 ![Screenshot](https://github.com/algolia/404-crawler/blob/main/README.png)
 
-## Usage
+## 📊 Usage 
 
 ### Install
 
@@ -64,7 +64,7 @@ After that, you'll be able to use the command `404crawler` in your terminal
 - `--browser-type` or `-b`:
   Type of the browser to use to crawl pages. Can be 'firefox', 'chromium' or 'webkit'. If not set, default to 'firefox'.
 
-## Get started (maintainers)
+## 👨‍💻 Get started (maintainers)
 
 This CLI is built with TypeScript and uses `ts-node` to run the code locally.
 
@@ -104,7 +104,7 @@ pnpm 404crawler crawl <options>
    npm publish
    ```
 
-## References
+## 🔗 References
 
 This package uses:
 
