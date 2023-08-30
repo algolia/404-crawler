@@ -44,17 +44,25 @@ After that, you'll be able to use the command `404crawler` in your terminal
 
 - `--render-js` or `-r`:
   Use JavaScript rendering to crawl and identify a 'Not Found Page' if the status code isn't a 404. This option is useful for websites that returns a 200 status code even if the page is not found (Next.js with custom not found page for example)
+
 - `--output` or `-o`:
   Ouput path for the JSON file of the results. Example: `crawler/results.json`. If not set, no file is written after the crawl.
+
 - `--include-variations` or `-v`:
   Include all sub-path variations from URLs found in the `sitemap.xml`.
   For example, if https://algolia.com/foo/bar/baz is found in the sitemap, the crawler will test https://algolia.com/foo/bar/baz, https://algolia.com/foo/bar, https://algolia.com/foo and https://algolia.com
+
 - `--exit-on-detection` or `-e`:
   Exit when a 404 or a 'Not Found' page is detected.
+
 - `--run-in-parallel` or `-p`:
   Run the crawler with multiple pages in parallel. By default, the number of parallel instances is set to 10. See `--batch-size` option to configure this number.
-- `--batch-size` or `-b`:
-  Number or parallel instances of crawler to run: the more this number is, the more resources are consumed. Only available when `--run-in-parallel` option is set.
+
+- `--batch-size` or `-s`:
+  Number or parallel instances of crawler to run: the more this number is, the more resources are consumed. Only available when `--run-in-parallel` option is set. If not set, default to 10.
+
+- `--browser-type` or `-b`:
+  Type of the browser to use to crawl pages. Can be 'firefox', 'chromium' or 'webkit'. If not set, default to 'firefox'.
 
 ## Get started (maintainers)
 

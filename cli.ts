@@ -14,32 +14,36 @@ program
 program
   .command("crawl")
   .description(
-    "Crawl pages from sitemap urls and all their sub-paths and detect 404 or not found pages"
+    "Crawl pages from sitemap urls and all their sub-paths and detect 404 or not found pages."
   )
   .requiredOption(
     "-u, --sitemap-url <url>",
-    "URL of the sitemap containing URLs to crawl"
+    "URL of the sitemap containing URLs to crawl."
   )
   .option(
     "-r, --render-js",
-    "Render JavaScript to detect a 'Page not found' page if the page doesn't return a 404 status code"
+    "Render JavaScript to detect a 'Page not found' page if the page doesn't return a 404 status code."
   )
-  .option("-o, --output <path>", "Output path of the results (JSON format)")
+  .option("-o, --output <path>", "Output path of the results (JSON format).")
   .option(
     "-v, --include-variations",
-    "Crawl all URLs found in the sitemap AND their sub-paths variations"
+    "Crawl all URLs found in the sitemap AND their sub-paths variations."
   )
   .option(
     "-e, --exit-on-detection",
-    "Exit when a 404 or a 'Not Found' page is detected"
+    "Exit when a 404 or a 'Not Found' page is detected."
   )
   .option(
     "-p, --run-in-parallel",
     "Run the crawler with multiple instances in parallel."
   )
   .option(
-    "-b, --batch-size <size>",
-    "Number of crawls to trigger in parallel when using --run-in-parallel option. If not set, default to 10"
+    "-s, --batch-size <size>",
+    "Number of crawls to trigger in parallel when using --run-in-parallel option. If not set, default to 10."
+  )
+  .option(
+    "-b, --browser-type <type>",
+    "Type of the browser to use to crawl pages. Can be 'firefox', 'chromium' or 'webkit'. If not set, default to 'firefox'"
   )
   .action(async (options: Options) => {
     try {

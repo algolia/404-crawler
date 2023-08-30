@@ -13,6 +13,7 @@ const main = async ({
   exitOnDetection,
   runInParallel,
   batchSize,
+  browserType,
 }: SanitizedOptions) => {
   console.log(`\n🔄 Loading sitemap.xml at ${sitemapUrl}...`);
   const sitemap = new Sitemap(sitemapUrl);
@@ -33,6 +34,7 @@ const main = async ({
     renderJs,
     exitOnDetection,
     runInParallel,
+    browserType,
     batchSize
   );
   const [error, siteStatus] = await crawler.crawl();

@@ -1,6 +1,13 @@
-import type { Page } from "playwright";
-import { chromium } from "playwright";
+import type { BrowserType as Browser, Page } from "playwright";
+import { chromium, firefox, webkit } from "playwright";
+import { BrowserType } from "../../utils/options";
 import promiseAllInBatches from "../../utils/promiseAllInBatches";
+
+const BROWSERS = {
+  chromium,
+  firefox,
+  webkit,
+};
 
 const STATUS_WORDING = {
   "404": "🚩 Returned status code 404",
@@ -13,25 +20,30 @@ type SiteStatus = {
   status: keyof typeof STATUS_WORDING;
 };
 
+const DEFAULT_BATCH_SIZE = 10;
+
 class Crawler {
   renderJs: boolean;
   sites: string[];
   exitOnDetection?: boolean;
   runInParallel?: boolean;
   batchSize: number;
+  browser: Browser;
 
   constructor(
     sites: string[],
     renderJs: boolean,
     exitOnDetection: boolean,
     runInParallel: boolean,
+    browserType: BrowserType,
     batchSize?: number
   ) {
     this.sites = sites;
     this.renderJs = renderJs;
     this.exitOnDetection = exitOnDetection;
     this.runInParallel = runInParallel;
-    this.batchSize = batchSize || 10;
+    this.browser = BROWSERS[browserType];
+    this.batchSize = batchSize || DEFAULT_BATCH_SIZE;
   }
 
   crawl() {
@@ -48,7 +60,7 @@ class Crawler {
       { name: "Page not found" },
     ]
   ): Promise<[Error | null, SiteStatus[]]> {
-    const browser = await chromium.launch();
+    const browser = await this.browser.launch();
 
     const task = async (site: string) => {
       const page = await browser.newPage();
@@ -108,7 +120,7 @@ class Crawler {
       { name: "Page not found" },
     ]
   ): Promise<[Error | null, SiteStatus[]]> {
-    const browser = await chromium.launch();
+    const browser = await this.browser.launch();
     const page = await browser.newPage();
     const sitesStatus: SiteStatus[] = [];
 
