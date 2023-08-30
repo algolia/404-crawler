@@ -100,10 +100,16 @@ class Crawler {
       task,
       this.sites,
       this.batchSize,
-      (batchResults) => {
-        for (const result of batchResults) {
-          console.log(`${STATUS_WORDING[result.status]} - ${result.url}\n`);
-        }
+      (batchResults, batchPosition) => {
+        console.log(
+          `🔄 Crawling from ${batchPosition} to ${
+            batchPosition + this.batchSize
+          } (total: ${this.sites.length})...\n\n${batchResults
+            .map(
+              (result) => `${STATUS_WORDING[result.status]} - ${result.url}\n\n`
+            )
+            .join("")}`
+        );
       }
     );
     await browser.close();

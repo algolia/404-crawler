@@ -7,7 +7,7 @@ const promiseAllInBatches = async <A, B>(
   task: (arg: A) => Promise<B>,
   items: A[],
   batchSize: number,
-  callbackAfterBatch?: (results: B[]) => void
+  callbackAfterBatch?: (results: B[], batchPosition: number) => void
 ): Promise<[Error | null, B[]]> => {
   let position = 0;
   let results: B[] = [];
@@ -25,7 +25,7 @@ const promiseAllInBatches = async <A, B>(
         })
       );
       if (callbackAfterBatch) {
-        callbackAfterBatch(results);
+        callbackAfterBatch(newResults, position);
       }
 
       results = [...results, ...newResults];

@@ -1,10 +1,10 @@
 # 404 Crawler 🏊‍♂️
 
-A command line interface to crawl pages from sitemap urls and all their sub-path.
+A command line interface to crawl and detect 404 pages from sitemap.
 
 ![Screenshot](https://github.com/algolia/404-crawler/blob/main/README.png)
 
-## 📊 Usage 
+## 📊 Usage
 
 ### Install
 
