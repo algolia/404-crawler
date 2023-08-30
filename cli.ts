@@ -3,12 +3,12 @@
 import { program } from "commander";
 import main from "./src";
 import formatError from "./utils/formatError";
-import type { Options } from "./utils/validateOptions";
-import validateOptions from "./utils/validateOptions";
+import type { Options } from "./utils/options";
+import { sanitizeOptions, validateOptions } from "./utils/options";
 
 program
   .name("404crawler")
-  .description("CLI to detect 404 pages from sitemap")
+  .description("Detect 404 and 'Not found' pages from sitemap URL")
   .version("1.0.0");
 
 program
@@ -33,10 +33,18 @@ program
     "-e, --exit-on-detection",
     "Exit when a 404 or a 'Not Found' page is detected"
   )
-  .action((options: Options) => {
+  .option(
+    "-p, --run-in-parallel",
+    "Run the crawler with multiple instances in parallel."
+  )
+  .option(
+    "-b, --batch-size <size>",
+    "Number of crawls to trigger in parallel when using --run-in-parallel option. If not set, default to 10"
+  )
+  .action(async (options: Options) => {
     try {
       validateOptions(options);
-      main(options);
+      await main(sanitizeOptions(options));
     } catch (error) {
       formatError(error);
     }

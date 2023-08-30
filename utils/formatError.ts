@@ -1,8 +1,10 @@
+import { program } from "commander";
+
 const formatError = (error: unknown) => {
   if (error instanceof Error) {
-    throw new Error(`❌ error: ${error.message}`);
+    program.error(`❌ error: ${error.message}`);
   }
-  throw new Error(`❌ error: ${String(error)}`);
+  program.error(`❌ error: ${String(error)}`);
 };
 
 export default formatError;
